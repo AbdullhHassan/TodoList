@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Modern Todo List</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>✓</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="todos">Tasks</button>
+            <button class="tab-btn" data-tab="pomodoro">Pomodoro</button>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane active" id="todos">
+                <div class="header">
+            <h1>Todo List</h1>
+            <button id="themeToggle" class="theme-toggle">
+                <svg class="sun-icon" viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-12c.28 0 .5.22.5.5v2c0 .28-.22.5-.5.5s-.5-.22-.5-.5v-2c0-.28.22-.5.5-.5zm0 13c-.28 0-.5.22-.5.5v2c0 .28.22.5.5.5s.5-.22.5-.5v-2c0-.28-.22-.5-.5-.5zm5-5.5c0-.28.22-.5.5-.5h2c.28 0 .5.22.5.5s-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5zm-13 0c0-.28.22-.5.5-.5h2c.28 0 .5.22.5.5s-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5zm11.52-4.48c.2-.2.2-.51 0-.71l-1.41-1.41c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.41 1.41c.2.2.51.2.71 0zm-9.04 9.04c.2-.2.2-.51 0-.71l-1.41-1.41c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.41 1.41c.2.2.51.2.71 0zm9.04 0c.2-.2.2-.51 0-.71l-1.41-1.41c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.41 1.41c.2.2.51.2.71 0zm-9.04-9.04c.2-.2.2-.51 0-.71l-1.41-1.41c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.41 1.41c.2.2.51.2.71 0z"/>
+                </svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z"/>
+                </svg>
+            </button>
+        </div>
+        <div id="error-message" class="error-message hidden"></div>
+        <div class="input-container">
+            <input type="text" id="todoInput" placeholder="Add a new task...">
+            <button id="addButton">
+                <span class="button-text">Add</span>
+                <span class="loader hidden"></span>
+            </button>
+        </div>
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="active">Active</button>
+            <button class="filter-btn" data-filter="completed">Completed</button>
+        </div>
+        <div id="loading" class="loading hidden">
+            <div class="loader"></div>
+            <p>Loading todos...</p>
+        </div>
+        <ul id="todoList" class="todo-list"></ul>
+            </div>
+            <div class="tab-pane" id="pomodoro">
+                <div class="pomodoro-container">
+                    <div class="timer-display">
+                        <div class="time">25:00</div>
+                        <div class="timer-label">Focus Time</div>
+                    </div>
+                    <div class="timer-controls">
+                        <button class="timer-btn" id="startTimer">Start</button>
+                        <button class="timer-btn" id="resetTimer">Reset</button>
+                    </div>
+                    <div class="timer-modes">
+                        <button class="mode-btn active" data-time="25">Pomodoro</button>
+                        <button class="mode-btn" data-time="5">Short Break</button>
+                        <button class="mode-btn" data-time="15">Long Break</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <audio id="addSound" preload="auto">
+        <source src="data:audio/mpeg;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAAFAAAJmQBLS0tLS0tLa2tra2tra4mJiYmJiYmpqampqampy8vLy8vLy+Tk5OTk5OT///////////////////8AAAA5TEFNRTMuMTAwA84AAAAAAAAAABQgJAi4QQABzAAAAmngz0pzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" type="audio/mpeg">
+    </audio>
+    <audio id="deleteSound" preload="auto">
+        <source src="data:audio/mpeg;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAADAAAGhgBVVVVVVVVVlZWVlZWVlc/Pz8/Pz8/////////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAA5TEFNRTMuMTAwA84AAAAAAAAAABQgJAi4QQABzAAAAmngzMjLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" type="audio/mpeg">
+    </audio>
+    <script src="script.js"></script>
+</body>
+</html>
