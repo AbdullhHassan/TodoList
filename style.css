@@ -97,9 +97,25 @@ body {
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: var(--accent-color);
   transform: scaleX(0);
   transition: transform 0.3s ease;
+}
+
+/* Color for each tab */
+.tab-btn[data-tab="tasks"]::after {
+  background-color: #3498db; /* Blue */
+}
+
+.tab-btn[data-tab="pomodoro"]::after {
+  background-color: #e74c3c; /* Red */
+}
+
+.tab-btn[data-tab="settings"]::after {
+  background-color: #f1c40f; /* Yellow */
+}
+
+.tab-btn[data-tab="ai"]::after {
+  background-color: #2ecc71; /* Green */
 }
 
 .tab-btn.active {
@@ -110,8 +126,17 @@ body {
   transform: scaleX(1);
 }
 
-.tab-btn[data-tab="pomodoro"].active::after {
-  background-color: var(--timer-accent);
+/* Move settings tab to the end */
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 1px;
+}
+
+.tab-btn[data-tab="settings"] {
+  order: 1;
 }
 
 .tab-content {
@@ -127,89 +152,7 @@ body {
   display: block;
 }
 
-/* Pomodoro Timer */
-.pomodoro-container {
-  text-align: center;
-  padding: 2rem;
-}
-
-.timer-display {
-  margin-bottom: 2rem;
-}
-
-.time {
-  font-size: 6rem;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  color: var(--timer-accent);
-  text-shadow: 0 0 20px rgba(231, 76, 60, 0.2);
-  margin-bottom: 0.5rem;
-}
-
-.timer-label {
-  font-size: 1.2rem;
-  color: var(--text-color);
-  opacity: 0.8;
-}
-
-.timer-controls {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-bottom: 2rem;
-}
-
-.timer-btn {
-  padding: 12px 32px;
-  font-size: 1.1rem;
-  background-color: var(--timer-accent);
-  color: white;
-  border-radius: 25px;
-  transition: all 0.3s ease;
-}
-
-.timer-btn:hover {
-  background-color: var(--timer-hover);
-  transform: translateY(-2px);
-}
-
-.timer-modes {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-}
-
-.mode-btn {
-  padding: 8px 16px;
-  font-size: 0.9rem;
-  background-color: var(--input-bg);
-  color: var(--text-color);
-  border-radius: 20px;
-  transition: all 0.3s ease;
-}
-
-.mode-btn:hover {
-  background-color: var(--timer-hover);
-  color: white;
-}
-
-.mode-btn.active {
-  background-color: var(--timer-accent);
-  color: white;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Todo Header */
+/* Header */
 .header {
   display: flex;
   justify-content: space-between;
@@ -227,6 +170,7 @@ h1 {
   transition: all 0.3s ease;
 }
 
+/* Theme Toggle */
 .theme-toggle {
   background: none;
   border: none;
@@ -274,21 +218,7 @@ h1 {
   transform: rotate(90deg) scale(0);
 }
 
-.error-message {
-  background-color: var(--error-color);
-  color: white;
-  padding: 12px;
-  border-radius: 12px;
-  margin-bottom: 1rem;
-  text-align: center;
-  transform-origin: top;
-  animation: slideDown 0.3s ease;
-}
-
-.hidden {
-  display: none !important;
-}
-
+/* Form Elements */
 .input-container {
   display: flex;
   gap: 12px;
@@ -316,6 +246,7 @@ input::placeholder {
   color: #888;
 }
 
+/* Buttons */
 button {
   padding: 14px 28px;
   border: none;
@@ -340,6 +271,7 @@ button:active {
   transform: translateY(0);
 }
 
+/* Filters */
 .filters {
   display: flex;
   gap: 12px;
@@ -365,6 +297,7 @@ button:active {
   color: white;
 }
 
+/* Loading */
 .loading {
   display: flex;
   flex-direction: column;
@@ -388,22 +321,23 @@ button:active {
   }
 }
 
+/* Todo List */
 .todo-list {
   list-style: none;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .todo-item {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   padding: 16px 20px;
   background-color: var(--input-bg);
-  margin-bottom: 12px;
   border-radius: 12px;
   animation: slideIn 0.4s ease;
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
   gap: 16px;
   box-shadow: 0 2px 4px var(--shadow-color);
 }
@@ -414,50 +348,18 @@ button:active {
   background-color: var(--secondary-bg);
 }
 
-.todo-item.completed {
-  animation: completeTask 0.5s ease forwards;
-  background-color: var(--secondary-bg);
-}
-
-.todo-item.completed .todo-text {
-  text-decoration: line-through;
-  opacity: 0.7;
-}
-
-.todo-item.deleting {
-  animation: explosion 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
-}
-
-.todo-item.deleting::before,
-.todo-item.deleting::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, var(--accent-color) 0%, transparent 70%);
-  transform: translate(-50%, -50%) scale(0);
-  animation: shockwave 0.6s ease-out forwards;
-  border-radius: 50%;
-  z-index: -1;
-}
-
-.todo-item.deleting::after {
-  animation-delay: 0.2s;
-}
-
-/* Small square checkbox */
 .todo-item input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
   border: 2px solid var(--accent-color);
-  border-radius: 0; /* 👈 Remove corners */
+  border-radius: 6px;
   cursor: pointer;
-  background-color: var(--input-bg);
   transition: all 0.3s ease;
+  background-color: transparent;
   position: relative;
   margin: 0;
   padding: 0;
@@ -486,11 +388,15 @@ button:active {
 }
 
 .todo-text {
-  flex: 1;
   font-size: 1.1rem;
-  transition: all 0.3s ease;
   line-height: 1.4;
+  transition: all 0.3s ease;
   padding: 0 4px;
+}
+
+.todo-item.completed .todo-text {
+  text-decoration: line-through;
+  opacity: 0.7;
 }
 
 .todo-actions {
@@ -498,6 +404,18 @@ button:active {
   align-items: center;
   gap: 16px;
   margin-left: auto;
+}
+
+.todo-time {
+  font-size: 0.85rem;
+  color: var(--text-color);
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+  white-space: nowrap;
+}
+
+.todo-item:hover .todo-time {
+  opacity: 0.9;
 }
 
 .delete-btn {
@@ -520,19 +438,7 @@ button:active {
   box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
 }
 
-.todo-time {
-  font-size: 0.85rem;
-  color: var(--text-color);
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
-  margin-right: 8px;
-  white-space: nowrap;
-}
-
-.todo-item:hover .todo-time {
-  opacity: 0.9;
-}
-
+/* Animations */
 @keyframes slideIn {
   from {
     transform: translateY(-30px);
@@ -544,39 +450,14 @@ button:active {
   }
 }
 
-@keyframes explosion {
-  0% {
-    transform: scale(1) rotate(0);
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
     opacity: 1;
-  }
-  20% {
-    transform: scale(1.2) rotate(5deg);
-  }
-  40% {
-    transform: scale(0.9) rotate(-5deg);
-  }
-  60% {
-    transform: scale(1.1) rotate(10deg);
-    opacity: 0.8;
-  }
-  80% {
-    transform: scale(0.8) rotate(-10deg);
-    opacity: 0.4;
-  }
-  100% {
-    transform: scale(0) rotate(15deg);
-    opacity: 0;
-  }
-}
-
-@keyframes shockwave {
-  0% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(2);
-    opacity: 0;
+    transform: translateY(0);
   }
 }
 
@@ -600,5 +481,383 @@ button:active {
   to {
     transform: scaleY(1);
     opacity: 1;
+  }
+}
+
+.error-message {
+  background-color: var(--error-color);
+  color: white;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  text-align: center;
+  transform-origin: top;
+  animation: slideDown 0.3s ease;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Position parent relative & hide overflow for shockwave */
+.todo-item {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Trigger "explosion" on delete */
+.todo-item.deleting {
+  animation: explosion 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+.todo-item.deleting::before,
+.todo-item.deleting::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, var(--accent-color) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  animation: shockwave 0.6s ease-out forwards;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.todo-item.deleting::after {
+  animation-delay: 0.2s;
+}
+
+/* "Explosion" keyframes */
+@keyframes explosion {
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  20% {
+    transform: scale(1.2) rotate(5deg);
+  }
+  40% {
+    transform: scale(0.9) rotate(-5deg);
+  }
+  60% {
+    transform: scale(1.1) rotate(10deg);
+    opacity: 0.8;
+  }
+  80% {
+    transform: scale(0.8) rotate(-10deg);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(0) rotate(15deg);
+    opacity: 0;
+  }
+}
+
+/* "Shockwave" keyframes */
+@keyframes shockwave {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+/* Pomodoro Container with Fade-In */
+.pomodoro-container {
+  text-align: center;
+  padding: 2rem;
+  animation: fadeSlideIn 0.8s ease both; /* 👈 Fade and slide animation */
+}
+
+/* Timer Display */
+.timer-display {
+  margin-bottom: 2rem;
+}
+
+/* Timer Text with Pulse */
+.time {
+  font-size: 6rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--timer-accent);
+  text-shadow: 0 0 20px rgba(231, 76, 60, 0.2);
+  margin-bottom: 0.5rem;
+  animation: pulseAccent 2s infinite; /* 👈 Pulsing effect */
+}
+
+/* Timer Label */
+.timer-label {
+  font-size: 1.2rem;
+  color: var(--text-color);
+  opacity: 0.8;
+}
+
+/* Timer Controls */
+.timer-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+/* Timer Buttons */
+.timer-btn {
+  padding: 12px 32px;
+  font-size: 1.1rem;
+  background-color: var(--timer-accent);
+  color: white;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.timer-btn:hover {
+  background-color: var(--timer-hover);
+  transform: translateY(-2px);
+}
+
+/* Timer Modes */
+.timer-modes {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.mode-btn {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.mode-btn:hover {
+  background-color: var(--timer-hover);
+  color: white;
+}
+
+.mode-btn.active {
+  background-color: var(--timer-accent);
+  color: white;
+}
+
+/* Settings Container */
+.settings-container {
+  padding: 2rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.settings-container h2 {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: var(--timer-accent);
+}
+
+.timer-settings {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.setting-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.setting-group label {
+  font-size: 1rem;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+.setting-group input {
+  padding: 12px;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.setting-group input:focus {
+  border-color: var(--timer-accent);
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+}
+
+.setting-group input:hover {
+  border-color: var(--timer-accent);
+}
+
+/* AI Tasks container */
+.ai-container {
+  text-align: center;
+  padding: 2rem;
+  animation: fadeSlideIn 0.8s ease;
+}
+
+.ai-container h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: var(--accent-color);
+}
+
+.ai-container p {
+  margin-bottom: 2rem;
+  opacity: 0.8;
+}
+
+/* AI Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 0.3s, opacity 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.modal-overlay.active {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity 0.3s ease;
+}
+
+.modal {
+  background-color: var(--secondary-bg);
+  padding: 2rem;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 600px;
+  transform: translateY(-20px);
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.modal-overlay.active .modal {
+  transform: translateY(0);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  padding: 5px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.modal-close:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.modal textarea {
+  width: 100%;
+  min-height: 150px;
+  padding: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-size: 1rem;
+  resize: vertical;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.modal textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* Progress bar in AI modal */
+.progress-bar {
+  width: 0%;
+  height: 4px;
+  background: linear-gradient(45deg, var(--accent-color), var(--hover-color));
+  border-radius: 2px;
+  margin-top: 1rem;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  opacity: 0.8;
+  text-align: center;
+  margin-top: 0.5rem;
+  transition: opacity 0.3s ease;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.ai-btn {
+  background: linear-gradient(45deg, #2ecc71, #27ae60);
+}
+
+.ai-btn:hover {
+  background: linear-gradient(45deg, #27ae60, #219a52);
+}
+
+/* Keyframes */
+
+/* Fade Slide-In */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Pulse Accent */
+@keyframes pulseAccent {
+  0% {
+    text-shadow: 0 0 10px rgba(231, 76, 60, 0.2);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(231, 76, 60, 0.8);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(231, 76, 60, 0.2);
   }
 }

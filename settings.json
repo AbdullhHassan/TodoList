@@ -1,0 +1,29 @@
+{
+  "pomodoro": {
+    "workTime": 25,
+    "shortBreak": 5,
+    "longBreak": 15,
+    "autoStartBreaks": false,
+    "autoStartPomodoros": false,
+    "longBreakInterval": 4,
+    "soundEnabled": true,
+    "notificationsEnabled": true
+  },
+  "theme": {
+    "default": "dark",
+    "accentColor": "#3498db",
+    "timerAccent": "#e74c3c"
+  },
+  "ai": {
+    "model": "deepseek-r1:1.5b",
+    "temperature": 0.5,
+    "maxTokens": 500,
+    "endpoint": "http://localhost:11434/api/generate"
+  },
+  "todo": {
+    "defaultFilter": "all",
+    "showCompletedTime": true,
+    "sortBy": "created",
+    "sortDirection": "desc"
+  }
+}

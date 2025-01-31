@@ -1,0 +1,51 @@
+{
+    "name": "vscode-ai-helper",
+    "displayName": "VS Code AI Helper",
+    "description": "AI-powered task breakdown using Ollama",
+    "version": "0.1.0",
+    "publisher": "user",
+    "engines": {
+        "vscode": "^1.80.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "main": "./extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "vscode-ai-helper.processAIComments",
+                "title": "Process AI Comments"
+            }
+        ],
+        "configuration": {
+            "title": "VS Code AI Helper",
+            "properties": {
+                "vscode-ai-helper.modelName": {
+                    "type": "string",
+                    "default": "deepseek-r1:1.5b",
+                    "description": "Ollama model name"
+                },
+                "vscode-ai-helper.temperature": {
+                    "type": "number",
+                    "default": 0.7,
+                    "description": "Model temperature"
+                },
+                "vscode-ai-helper.apiEndpoint": {
+                    "type": "string",
+                    "default": "http://localhost:11434",
+                    "description": "Ollama API endpoint"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "postinstall": "pip install -r requirements.txt"
+    },
+    "dependencies": {
+        "python-shell": "^3.0.1"
+    }
+}
